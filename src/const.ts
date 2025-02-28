@@ -2,8 +2,14 @@ import tinycolor from "tinycolor2";
 export const isDebugMode = (() => {
 
 })()
-
-export let SLEEP_MS = 100
+export const SLEEP_MS = (() => {
+    const params = new URLSearchParams(window.location.search);
+    const ms = Number(params.get("SLEEP_MS"))
+    if (Number.isInteger(ms) && ms > 0) {
+        return ms
+    }
+    return 100
+})()
 export const COL_WIDTH = 20
 export const ROW_LENGTH = 21  // must be 3+2n , n>=2
 export const APP_WIDTH = COL_WIDTH * ROW_LENGTH
@@ -36,13 +42,13 @@ export enum ColType {
     [ColType.Wall]: "rgba(0, 0, 0, 1)",               // #000000 → 黑色
     [ColType.NotVisited]: "rgba(255, 255, 255, 1)",   // #FFFFFF → 白色
     [ColType.Visited]: "rgba(0, 255, 0, 1)",         // #00FF00 → 绿色
-    [ColType.HasBacktracked]: "rgba(100, 100, 100, 1)",  // #FF0000 → 红色
+    [ColType.HasBacktracked]: "rgb(0, 0, 255)",  // #FF0000 → 红色
     [ColType.StartPoint]: "rgba(255, 255, 255, 1)",  // #FFFFFF → 白色
     [ColType.EndPoint]: "rgba(255, 255, 255, 1)"     // #FFFFFF → 白色
 };
 export const ColStatusColor: { [key in ColStatus]: string } = {
     [ColStatus.Current]: "rgba(0, 0, 255, 0.8)",
-    [ColStatus.Inspect]: "rgba(255, 0, 0, 0.8)",
+    [ColStatus.Inspect]: "rgba(255, 0, 0, 1)",
     [ColStatus.Normal]: "rgba(0, 0, 0, 0)",
 };
 export const getBlendedColor = (colType: ColType, colStatus: ColStatus) => {

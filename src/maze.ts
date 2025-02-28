@@ -258,11 +258,11 @@ export default class Maze {
         const startRow = this.startPositionIndex.row
         const startCol = this.startPositionIndex.col
         this.maze = this.createEmptyMaze()
-        await this.drawAllMazeRect()
+        this.drawAllMazeRect()
         await sleepSync()
         await this.expandRoad(startRow, startCol)
         this.createEnd()
-        await this.drawAllMazeRect()
+        this.drawAllMazeRect()
     }
     setColStatus(row: number, col: number, status: ColStatus) {
         const originType = this.maze[row][col][0]
@@ -272,15 +272,13 @@ export default class Maze {
         const originType = this.maze[row][col][0]
         this.maze[row][col] = (originType + ColStatus.Normal) as ColValue
     }
-    async drawAllMazeRect() {
+    drawAllMazeRect() {
         for (let row = 0; row < ROW_LENGTH; row++) {
             for (let col = 0; col < ROW_LENGTH; col++) {
                 const colType = this.getColType(row, col)
                 this.ctx.fillStyle = ColTypeColor[colType];
                 this.ctx.fillRect(COL_WIDTH * row, COL_WIDTH * col, COL_WIDTH, COL_WIDTH);
-                // await sleepSync()
             }
-
         }
     }
     drawCol(row: number, col: number, colType: ColType, colStatus: ColStatus) {
